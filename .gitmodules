@@ -1,0 +1,3 @@
+[submodule "G-Trans"]
+	path = G-Trans
+	url = https://github.com/baoguangsheng/g-transformer
