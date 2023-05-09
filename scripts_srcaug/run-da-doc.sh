@@ -47,7 +47,7 @@ else
   rm $da_seg_path/* -rf
   rm $da_bin_path/* -rf
 
-  python scripts_tgtaug/make_da_data.py --tok-path $from_seg_path --res-path $da_seg_path --slang $slang --tlang $tlang \
+  python scripts_tgtaug/make_da_data.py --tok-path $from_seg_path --res-path $da_seg_path --slang $tlang --tlang $slang \
          --seed 1 --train-parts $num_gpus --repeat-times $repeat_times_doc $latent_args
 
   testpref=$da_seg_path/test
@@ -55,7 +55,7 @@ else
     testpref=$testpref,$da_seg_path/train-part${part}
   done
 
-  python -m fairseq_cli.preprocess --task translation_doc --source-lang $slang --target-lang $tlang \
+  python -m fairseq_cli.preprocess --task translation_doc --source-lang $tlang --target-lang $slang \
          --trainpref $da_seg_path/train --validpref $da_seg_path/valid  --testpref $testpref \
          --destdir $da_bin_path --joined-dictionary --srcdict $from_bin_path/dict.$slang.txt --workers 8
 
@@ -80,7 +80,7 @@ else
   max_positions=$(($max_len * 2))
 
   python train.py $da_bin_path --save-dir $da_cp_path --tensorboard-logdir $da_cp_path --seed 444 --num-workers 4 \
-         --task translation_doc --source-lang $slang --target-lang $tlang --langs $doc_langs \
+         --task translation_doc --source-lang $tlang --target-lang $slang --langs $doc_langs \
          --arch gtransformer_base --doc-mode partial --share-all-embeddings \
          --optimizer adam --adam-betas "(0.9, 0.98)" \
          --lr-scheduler inverse_sqrt --lr 5e-04 --warmup-updates 4000 \
@@ -96,7 +96,7 @@ else
   subset=test
   python -m fairseq_cli.generate $da_bin_path --path $da_cp_path/checkpoint_best.pt \
          --gen-subset $subset --batch-size 8 --beam 5 --max-len-a 1.2 --max-len-b 10 \
-         --task translation_doc --source-lang $slang --target-lang $tlang --langs $doc_langs \
+         --task translation_doc --source-lang $tlang --target-lang $slang --langs $doc_langs \
          --max-source-positions $max_positions --max-target-positions $max_positions \
          --doc-mode partial --tokenizer moses --remove-bpe --sacrebleu \
          --gen-output $da_res_path/$subset > $run_path/$subset.$data-doc.$slang-$tlang.log 2>&1
@@ -122,7 +122,7 @@ else
     device=$(($part-1))
     CUDA_VISIBLE_DEVICES=$device nohup python -m fairseq_cli.generate $da_bin_path --path $da_cp_path/checkpoint_best.pt \
          --gen-subset $subset $sampling_args_doc \
-         --task translation_doc --source-lang $slang --target-lang $tlang --langs $doc_langs \
+         --task translation_doc --source-lang $tlang --target-lang $slang --langs $doc_langs \
          --max-source-positions $max_positions --max-target-positions $max_positions \
          --doc-mode partial --tokenizer moses --remove-bpe --sacrebleu \
          --gen-output $da_res_path/$subset > $run_path/$subset.$data-doc.$slang-$tlang.log 2>&1 &
@@ -130,7 +130,7 @@ else
 
   # Wait for generate to complete
   sleep 10m
-  python scripts_tgtaug/cuda_monitor.py --mode wait
+  python scripts_main/cuda_monitor.py --mode wait
   echo `date`, Finish doc-level DA translation.
 
   # DONE-FLAG: flag done

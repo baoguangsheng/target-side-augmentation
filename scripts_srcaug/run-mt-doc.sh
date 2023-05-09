@@ -36,7 +36,7 @@ mkdir -p $mt_exp_path
 # check sent MT model
 sent_model=$mt_exp_path/run-sent/$data-sent.checkpoints.$slang-$tlang/checkpoint_best.pt
 if [ ! -f $sent_model ]; then
-  echo `date`, The sent MT model is required: $sent_model
+  echo `date`, The sent model is required: $sent_model
   exit -1
 fi
 
@@ -62,8 +62,8 @@ else
   for ((part=1; part<=$num_gpus; part++)); do
     trainpart=train-part$part
     subset=test$part
-    cat $da_seg_path/$trainpart.$slang.origion >> $mt_seg_path/train.$slang
-    cat $da_res_path/$subset.seg.gen >> $mt_seg_path/train.$tlang
+    cat $da_seg_path/$trainpart.$tlang.origion >> $mt_seg_path/train.$tlang
+    cat $da_res_path/$subset.seg.gen >> $mt_seg_path/train.$slang
   done
 
   python -m fairseq_cli.preprocess --task translation_doc --source-lang $slang --target-lang $tlang \
