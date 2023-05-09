@@ -16,11 +16,8 @@ data=$1
 mode=$2
 exp_path=$3
 
-slang=en
-tlang=de
-
-# import data specific settings: dropout, max_len, patience_mt
-source scripts_main/config-$data.sh
+# import data specific settings: slang, tlang, dropout, max_len, patience_mt
+source $exp_path/scripts/config-$data.sh
 
 echo `date`, data: $data, mode: $mode, exp_path: $exp_path, slang: $slang, tlang: $tlang
 bin_path=$exp_path/$data-doc.binarized.$slang-$tlang

@@ -13,11 +13,8 @@ fi
 data=$1
 exp_path=$2
 
-slang=en
-tlang=de
-
-# import data specific settings: max_len
-source scripts_main/config-$data.sh
+# import data specific settings: slang, tlang, max_len
+source $exp_path/scripts/config-$data.sh
 
 echo `date`, exp_path: $exp_path, data: $data, slang: $slang, tlang: $tlang
 
