@@ -18,7 +18,7 @@ exp_path=$3
 
 
 # import data specific settings: slang, tlang, dropout, max_len, patience_mt
-source $exp_path/scripts/config-$data.sh
+source $exp_path/../scripts/config-$data.sh
 
 echo `date`, data: $data, mode: $mode, exp_path: $exp_path, slang: $slang, tlang: $tlang
 bin_path=$exp_path/$data-sent.binarized.$slang-$tlang

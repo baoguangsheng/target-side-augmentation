@@ -56,11 +56,11 @@ def print_device_info():
 
 def report_device_usage():
     devices = torch.cuda.device_count()
-    with CudaMonitor() as chaser:
+    with CudaMonitor() as monitor:
         items = []
         for device_id in range(devices):
-            total, free, used = chaser.get_mem_usage(device_id)
-            gpu = chaser.get_gpu_util(device_id)
+            total, free, used = monitor.get_mem_usage(device_id)
+            gpu = monitor.get_gpu_util(device_id)
             items.append('%s: %.0f%%, %.0fG/%.0fG;' % (device_id, gpu, used/1024/1024/1024, total/1024/1024/1024))
         print(' '.join(items))
 
@@ -68,9 +68,9 @@ def report_device_usage():
 def wait_for_device():
     logger.info('Waiting for GPU to complete ...')
     devices = torch.cuda.device_count()
-    with CudaMonitor() as chaser:
+    with CudaMonitor() as monitor:
         while True:
-            if chaser.all_idle(devices):
+            if monitor.all_idle(devices):
                 logger.info('All GPUs are available now.')
                 break
             else:
@@ -84,7 +84,7 @@ if __name__ == '__main__':
                              "wait - wait for the GPUs to finish current job.")
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.INFO, filename='./logs/cuda_monitor.log', format="[%(asctime)s %(levelname)s] %(message)s")
+    logging.basicConfig(level=logging.INFO, filename='./cuda_monitor.log', format="[%(asctime)s %(levelname)s] %(message)s")
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(logging.Formatter("[%(asctime)s %(levelname)s] %(message)s"))
     logger.addHandler(console_handler)

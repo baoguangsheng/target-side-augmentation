@@ -15,7 +15,9 @@ data=$1
 exp_path=$2
 
 # setup the environment
-umask 002
+set -e  # exit if error
+umask 002  # avoid root privilege in docker
+
 cur_dir=$(pwd)
 exp_path=$cur_dir/$exp_path
 cd ./G-Trans

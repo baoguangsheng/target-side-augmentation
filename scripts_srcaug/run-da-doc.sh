@@ -17,6 +17,9 @@ exp_path=$2
 # import data specific settings: slang, tlang, dropout, max_len, patience_da, num_gpus
 source $exp_path/scripts/config-$data.sh
 
+doc_langs=$slang,$tlang
+max_positions=$(($max_len * 2))
+
 # 0. Prerequisite
 from_seg_path=$exp_path/$data-doc.segmented.$slang-$tlang
 from_bin_path=$exp_path/$data-doc.binarized.$slang-$tlang
@@ -76,9 +79,6 @@ else
   da_res_path=$run_path/$data-doc.results.$slang-$tlang
   mkdir -p $da_res_path
 
-  doc_langs=$slang,$tlang
-  max_positions=$(($max_len * 2))
-
   python train.py $da_bin_path --save-dir $da_cp_path --tensorboard-logdir $da_cp_path --seed 444 --num-workers 4 \
          --task translation_doc --source-lang $tlang --target-lang $slang --langs $doc_langs \
          --arch gtransformer_base --doc-mode partial --share-all-embeddings \
@@ -117,6 +117,7 @@ else
   da_cp_path=$run_path/$data-doc.checkpoints.$slang-$tlang
   da_res_path=$run_path/$data-doc.results.$slang-$tlang
 
+  WAIT_FOR_PIDS=""
   for ((part=1; part<=$num_gpus; part++)); do
     subset=test$part
     device=$(($part-1))
@@ -126,12 +127,14 @@ else
          --max-source-positions $max_positions --max-target-positions $max_positions \
          --doc-mode partial --tokenizer moses --remove-bpe --sacrebleu \
          --gen-output $da_res_path/$subset > $run_path/$subset.$data-doc.$slang-$tlang.log 2>&1 &
+    WAIT_FOR_PIDS="$WAIT_FOR_PIDS $!"
   done
 
   # Wait for generate to complete
-  sleep 10m
-  python scripts_main/cuda_monitor.py --mode wait
-  echo `date`, Finish doc-level DA translation.
+  wait $WAIT_FOR_PIDS
+#  sleep 10m
+#  python scripts_tgtaug/cuda_monitor.py --mode wait
+#  echo `date`, Finish doc-level DA translation.
 
   # DONE-FLAG: flag done
   echo `date` > $done_file
