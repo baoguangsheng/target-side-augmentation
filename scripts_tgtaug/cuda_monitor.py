@@ -54,24 +54,29 @@ def print_device_info():
                        torch.cuda.get_device_properties(device_id)))
 
 
-def report_device_usage():
+def check_device_usage(num_gpus):
     devices = torch.cuda.device_count()
+    if devices < num_gpus:
+        raise Exception(f'Expect {num_gpus} GPUs but get {devices}.')
+    print(f'{num_gpus} GPUs are ready:')
     with CudaMonitor() as monitor:
         items = []
-        for device_id in range(devices):
+        for device_id in range(num_gpus):
             total, free, used = monitor.get_mem_usage(device_id)
             gpu = monitor.get_gpu_util(device_id)
             items.append('%s: %.0f%%, %.0fG/%.0fG;' % (device_id, gpu, used/1024/1024/1024, total/1024/1024/1024))
         print(' '.join(items))
 
 
-def wait_for_device():
+def wait_for_device(num_gpus):
     logger.info('Waiting for GPU to complete ...')
     devices = torch.cuda.device_count()
+    if devices < num_gpus:
+        raise Exception(f'Expect {num_gpus} GPUs but get {devices}.')
     with CudaMonitor() as monitor:
         while True:
-            if monitor.all_idle(devices):
-                logger.info('All GPUs are available now.')
+            if monitor.all_idle(num_gpus):
+                logger.info(f'{num_gpus} GPUs are available now.')
                 break
             else:
                 time.sleep(10)
@@ -82,6 +87,8 @@ if __name__ == '__main__':
     parser.add_argument("--mode", default='check', choices=['check', 'wait'],
                         help="check - check the usage of the GPUs. "
                              "wait - wait for the GPUs to finish current job.")
+    parser.add_argument("--num-gpus", default=4, type=int,
+                        help="The number of GPUs.")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, filename='./cuda_monitor.log', format="[%(asctime)s %(levelname)s] %(message)s")
@@ -94,10 +101,9 @@ if __name__ == '__main__':
         exit(-1)
 
     if args.mode == 'check':
-        report_device_usage()
+        check_device_usage(args.num_gpus)
 
     elif args.mode == 'wait':
-        report_device_usage()
-        wait_for_device()
-        report_device_usage()
+        check_device_usage(args.num_gpus)
+        wait_for_device(args.num_gpus)
 

@@ -105,6 +105,9 @@ else
   da_cp_path=$run_path/$data-sent.checkpoints.$slang-$tlang
   da_res_path=$run_path/$data-sent.results.$slang-$tlang
 
+  # check readiness of GPUs
+  python scripts_tgtaug/cuda_monitor.py --mode check --num-gpus $num_gpus
+
   WAIT_FOR_PIDS=""
   for ((part=1; part<=$num_gpus; part++)); do
     subset=test$part
@@ -120,9 +123,7 @@ else
 
   # Wait for generate to complete
   wait $WAIT_FOR_PIDS
-#  sleep 10m
-#  python scripts_tgtaug/cuda_monitor.py --mode wait
-#  echo `date`, Finish sent-level DA translation.
+  echo `date`, Finish sent-level DA translation.
 
   # DONE-FLAG: flag done
   echo `date` > $done_file

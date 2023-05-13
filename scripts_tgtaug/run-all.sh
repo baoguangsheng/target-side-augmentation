@@ -33,4 +33,11 @@ bash -e scripts_tgtaug/run-mt-sent.sh $data $exp_path
 bash -e scripts_tgtaug/run-da-doc.sh $data $exp_path
 bash -e scripts_tgtaug/run-mt-doc.sh $data $exp_path
 
+# 4. Print BLEU scores
+echo `date`, s-BLEU for sent Transformer:
+cat $exp_path/subexp_mt/run-sent/test.$data-sent.$slang-$tlang.log | grep "Generate test with beam="
+
+echo `date`, s/d-BLEU for G-Transformer(fnt.):
+cat $exp_path/subexp_mt/run-finetune/test.$data-doc.$slang-$tlang.log | grep "Generate test with beam="
+
 cd $cur_dir
