@@ -14,24 +14,37 @@ Before running the scripts, please make sure the submodule ./G-Trans is correctl
 
 ### Main Experiments
 
+* Target-side augmentation
 Target-side augmentation for both sent-level Transformer and doc-level G-Transformer:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_tgtaug/run-all.sh nc2016 exp_main
+bash scripts_tgtaug/run-all.sh nc2016 exp_main
 ```
 
+* Baseline
 The baseline for sent-level Transformer and doc-level G-Transformer:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_gtrans/run-baseline.sh nc2016 exp_main
+bash scripts_gtrans/run-baseline.sh nc2016 exp_main
 ```
 
-### Back-translation + Targets-side Augmentation
+### Additional Experiments
+* Back-translation + Targets-side Augmentation
 Source-side augmentation with back-translation plus target-side augmentation with our DA model:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_bothaug/run-all.sh nc2016 exp_backtrans
+bash scripts_bothaug/run-all.sh nc2016 exp_backtrans
 ```
 
-### Source-side + Target-side Augmentation 
+* Source-side + Target-side Augmentation 
 Source-side plus target-side augmentation with our DA model:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_bothaug/run-all.sh nc2016 exp_ablation
+bash scripts_bothaug/run-all.sh nc2016 exp_ablation
+```
+
+### Citation
+```
+@article{bao2023target,
+  title={Target-Side Augmentation for Document-Level Machine Translation},
+  author={Bao, Guangsheng and Teng, Zhiyang and Zhang, Yue},
+  journal={arXiv preprint arXiv:2305.04505},
+  year={2023}
+}
 ```
