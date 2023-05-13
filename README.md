@@ -12,7 +12,7 @@ Before running the scripts, please make sure the submodule ./G-Trans is correctl
 ```
 (Notes: Our experiments are done on 4 GPUs of Tesla V100.)
 
-## Main Experiments
+### Main Experiments
 
 Target-side augmentation for both sent-level Transformer and doc-level G-Transformer:
 ```
@@ -24,13 +24,13 @@ The baseline for sent-level Transformer and doc-level G-Transformer:
 CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_gtrans/run-baseline.sh nc2016 exp_main
 ```
 
-## Back-translation + Targets-side Augmentation
+### Back-translation + Targets-side Augmentation
 Source-side augmentation with back-translation plus target-side augmentation with our DA model:
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_bothaug/run-all.sh nc2016 exp_backtrans
 ```
 
-## Source-side Augmentation + Target-side Augmentation 
+### Source-side + Target-side Augmentation 
 Source-side plus target-side augmentation with our DA model:
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_bothaug/run-all.sh nc2016 exp_ablation
