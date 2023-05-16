@@ -60,7 +60,7 @@ def _sample_ngrams(args, tgt_sent):
     assert len(tgt_ngrams) == len(tgt_sent)
     obs_ratio = args.observe_ratio.sample()
     obs_len = round(obs_ratio * len(tgt_sent))
-    obs_len = np.clip(obs_len, args.observe_minlen, len(tgt_sent))
+    obs_len = np.clip(obs_len, args.observe_minlen, len(tgt_sent) - 1)
     return tgt_ngrams[: obs_len]
 
 
