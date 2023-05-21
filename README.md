@@ -72,7 +72,7 @@ We place the configuration scripts for the experiment at exp_main/scripts. After
   ```
   CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_gtrans/run-baseline.sh nc2016 exp_main
   ```
-  We put the experiments at folder exp_main/subexp_baseline.
+  We put the experiments at exp_main/subexp_baseline.
 
 ### Citation
 
