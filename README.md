@@ -8,7 +8,7 @@
 ![Overview of target-side data augmentation.](https://github.com/baoguangsheng/target-side-augmentation/blob/main/docs/overview.png)
 
 Target-side data augmentation (DA) is illustrated in the figure using a very simple example. 
-A DA model is trained to estimate the distribution of possible translations $y$ given a source $x_i$ and an observed target $y_i$, and the MT model is trained on the sampled translations $\hat{y}_j$ from the DA model for each source $x_i$. 
+A DA model is trained to estimate the distribution of possible translations $y$ given a source $x_i$ and an observed target $y_i$ (Step 1), and the MT model is trained on the sampled translations $\hat{y}_j$ from the DA model for each source $x_i$ (Step 3). 
 Effectively training the DA model with the target $y_i$, which is also a conditional input, can be challenging, but it is achievable after introducing an intermediate latent variable between the translation $y$ and the condition $y_i$.
 
 ## Environment
