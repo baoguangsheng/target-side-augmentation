@@ -53,8 +53,10 @@ The scripts will run four steps:
 ```
   CUDA_VISIBLE_DEVICES=0,1,2,3 bash scripts_tgtaug/run-all.sh nc2016 exp_main
 ```
-We place the configuration scripts for the experiment at exp_main/scripts. After running, two sub-folders will be created. One for the DA model (exp_main/subexp_da), and another for the MT model (exp_main/subexp_mt). 
-Here, the "nc2016" is the data name for News, which could be replaced with "iwslt17" for TED and "europarl7" for Europarl.
+The "nc2016" is the data name for News, which could be replaced with "iwslt17" for TED and "europarl7" for Europarl.
+
+We place the configuration scripts for the experiment at exp_main/scripts. After running, two sub-folders will be created. One for the DA model (exp_main/subexp_da), and another for the MT model (exp_main/subexp_mt).
+
 
 ### Back-translation + Targets-side Augmentation
 
