@@ -34,6 +34,7 @@ max_positions=$(($max_len * 2))
 
 if [ $mode == "train" ]; then
   echo `date`, Training sentence-level model...
+  # G-Transformer with the doc-mode of 'full' is the same as Transformer but with different naming on the attention modules.
   python train.py $bin_path --save-dir $cp_path --tensorboard-logdir $cp_path --seed 444 --fp16 --num-workers 4 \
          --task translation_doc --source-lang $slang --target-lang $tlang --langs $doc_langs \
          --arch gtransformer_base --doc-mode full --share-all-embeddings \
