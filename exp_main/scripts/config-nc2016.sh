@@ -10,9 +10,9 @@ patience_da=5
 patience_mt=10
 num_gpus=4
 
-repeat_times_sent=9
+repeat_times_sent=6
 repeat_times_doc=9
-latent_args="--observe --observe-ratio Beta(2,3) --observe-ngram [1,3] --observe-token madeupword0000 --observe-minlen 1"
+latent_args="--observe --observe-ratio Beta(2,3) --observe-ngram [1,3] --observe-token madeupword0000 --observe-minlen 2"
 
 sampling_args_sent="--batch-size 64 --beam 5 --max-len-a 1.2 --max-len-b 10"
 sampling_args_doc="--batch-size 8 --beam 5 --max-len-a 1.2 --max-len-b 10"
