@@ -2,7 +2,7 @@
 
 **This code is for ACL 2023 long paper "Target-Side Augmentation for Document-Level Machine Translation".**
 
-[Paper](https://arxiv.org/abs/2305.04505) 
+[Paper](https://arxiv.org/pdf/2305.04505v2.pdf) 
 | [Poster](https://github.com/baoguangsheng/target-side-augmentation/blob/main/docs/poster.pdf)
 | [Slides](https://github.com/baoguangsheng/target-side-augmentation/blob/main/docs/slides.pdf)
 | [Video](https://www.youtube.com/watch?v=3PRPBcoRKnw)
