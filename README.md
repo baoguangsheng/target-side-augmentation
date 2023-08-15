@@ -2,7 +2,7 @@
 
 **This code is for ACL 2023 long paper "Target-Side Augmentation for Document-Level Machine Translation".**
 
-[Paper](https://arxiv.org/pdf/2305.04505v2.pdf) 
+[Paper](https://aclanthology.org/2023.acl-long.599.pdf) 
 | [Poster](https://github.com/baoguangsheng/target-side-augmentation/blob/main/docs/poster.pdf)
 | [Slides](https://github.com/baoguangsheng/target-side-augmentation/blob/main/docs/slides.pdf)
 | [Video](https://www.youtube.com/watch?v=3PRPBcoRKnw)
@@ -77,10 +77,11 @@ We place the configuration scripts for the experiment at exp_main/scripts. After
 ### Citation
 
 ```
-@article{bao2023target,
+@inproceedings{bao2023target,
   title={Target-Side Augmentation for Document-Level Machine Translation},
   author={Bao, Guangsheng and Teng, Zhiyang and Zhang, Yue},
-  journal={arXiv preprint arXiv:2305.04505},
+  booktitle={Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages={10725--10742},
   year={2023}
 }
 ```
